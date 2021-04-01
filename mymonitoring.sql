@@ -68,8 +68,8 @@ CREATE TABLE `measurements` (
 --
 
 INSERT INTO `measurements` (`id`, `userId`, `devId`, `iot_name`, `name`, `symbol`, `description`) VALUES
-(1, 1, 1, 'varname', 'Безимянный', 'di/ck', NULL),
-(2, 1, 1, 'varname_2', 'Безимянный', 'x/yi', NULL);
+(1, 1, 1, 'varname', 'Безимянный', 'C', NULL),
+(2, 1, 1, 'varname_2', 'Безимянный', 'RH', NULL);
 
 -- --------------------------------------------------------
 
