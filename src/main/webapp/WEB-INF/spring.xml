@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/mvc ">
+
+    <mvc:annotation-driven/>
+    <context:component-scan base-package="org.kehboard"/>
+
+    <!-- Create default configuration for Hibernate -->
+    <bean id="hibernateJpaVendorAdapter"
+          class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/view/" p:suffix=".jsp"/>
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
+        <!-- Set JPA properties -->
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="javax.persistence.schema-generation.database.action">none</prop>
+                <prop key="hibernate.ejb.use_class_enhancer">true</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql"> true</prop>
+                <prop key="hibernate.use_sql_comments">true</prop>
+
+            </props>
+        </property>
+
+        <!-- Set base package of your entities -->
+        <property name="packagesToScan" value="org.kehboard.entity.db"/>
+        <!-- Set share cache mode -->
+        <property name="sharedCacheMode" value="ENABLE_SELECTIVE"/>
+        <!-- Set validation mode -->
+        <property name="validationMode" value="NONE"/>
+    </bean>
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/mymonitoring"/>
+        <property name="username" value="root"/>
+        <property name="password" value=""/>
+
+    </bean>
+    <!-- Enable annotation driven transaction management -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+         <property name="entityManagerFactory"  ref="entityManagerFactory" />
+     </bean>
+
+      <!-- Configure Spring Data JPA and set the base package of the
+       repository interfaces
+     -->
+    <jpa:repositories base-package="org.kehboard.repository"/>
+</beans>
