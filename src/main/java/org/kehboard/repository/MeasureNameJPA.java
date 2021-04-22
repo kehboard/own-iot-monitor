@@ -15,7 +15,10 @@ import java.util.Scanner;
 @Repository
 
 public interface MeasureNameJPA extends JpaRepository<MeasureName, Integer> {
-    List<MeasureName> getMeasureNamesByDevIdAndUserId(Integer devId, Integer userId);
+    @Query("SELECT m FROM MeasureName m WHERE m.devId=:devId")
+    List<MeasureName> getMeasureNamesByDevId(@Param("devId") Integer devId);
+    @Query("SELECT m FROM MeasureName m WHERE m.devId=:devId AND m.id=:mid")
+    MeasureName getMeasureNamesByDevIdAndId(@Param("devId") Integer devId,@Param("mid") Integer mid);
 
     @Query("SELECT new map (m.id as id, m.iotName as iotName ) FROM MeasureName m WHERE m.devId = :devId AND m.userId=:userId")
     List<Map<String,Object>> getIotNamesAndIdByDevIdAndUserId(@Param("devId") Integer devId, @Param("userId") Integer userId);

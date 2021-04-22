@@ -29,4 +29,6 @@ public class DeviceJSON {
     private Float altitude;
     @JsonProperty
     private String apiKey;
+    @JsonProperty
+    private String description;
 }

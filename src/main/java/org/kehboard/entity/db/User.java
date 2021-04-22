@@ -1,7 +1,16 @@
 package org.kehboard.entity.db;
 
+import lombok.*;
+
 import javax.persistence.*;
 
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Getter
+@Setter
+@Builder
 @Entity
 @Table(name = "users")
 public class User {

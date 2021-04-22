@@ -8,6 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
 public class SuccessJSON {
     @JsonProperty
     private Boolean ok = true;

@@ -29,4 +29,6 @@ public class Device {
     private Float altitude;
     @Column(name = "apiKey")
     private String apiKey;
+    @Column(name = "description")
+    private String description;
 }
