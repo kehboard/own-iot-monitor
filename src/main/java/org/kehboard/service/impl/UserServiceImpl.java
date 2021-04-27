@@ -214,7 +214,7 @@ public class UserServiceImpl implements UserService {
             }
             for (MeasureName m :
                     measureName) {
-                PageRequest pageRequest = PageRequest.of(0, 2);
+                PageRequest pageRequest = PageRequest.of(0, 1000);
                 List<Measure> page = measureJPA.getMeasureByMeasureNameId(m.getId(), pageRequest).getContent();
                 List<GetMeasureJSON> tmpList = new LinkedList<>();
                 for (Measure ms :

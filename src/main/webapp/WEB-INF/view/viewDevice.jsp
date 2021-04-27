@@ -55,13 +55,13 @@
                 <li>
                     <a href="/dashboard">
                         <i class="pe-7s-signal"></i>
-                        <p>Devices</p>
+                        <p>Устройства</p>
                     </a>
                 </li>
                 <li class="">
                     <a href="/dashboard/addNewDevice">
                         <i class="pe-7s-plus"></i>
-                        <p>Add new device</p>
+                        <p>Новое устройство</p>
                     </a>
                 </li>
             </ul>
@@ -79,19 +79,20 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Панель управления</a>
+                    <a class="navbar-brand" href="#">Панель управления </a>
+                    <a type="button" class="btn" id="refreshButton"><i class="pe-7s-refresh-2"></i></a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                Account
+                                Учетная запись
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="/dashboard/accountSettings">Settings</a></li>
+                                <li><a href="/dashboard/accountSettings">Настройки</a></li>
                                 <li class="divider"></li>
-                                <li><a href="/logout">Log out</a></li>
+                                <li><a href="/logout">Выйти</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -182,7 +183,7 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Последние данные</h4>
+                                <h4 class="title">Полученные данные</h4>
                                 <p class="category"></p>
                             </div>
                             <div class="content">
@@ -252,7 +253,7 @@
                     "                                        <div class=\"col-md-12\">\n" +
                     "                                            <div class=\"form-group\">\n" +
                     "                                                <label>Величина</label>\n" +
-                    "                                                <input type=\"text\" name=\"name\" value='"+result.measureName+"' class=\"form-control\" placeholder=\"Имя величны\">\n" +
+                    "                                                <input type=\"text\" name=\"name\" value='" + result.measureName + "' class=\"form-control\" placeholder=\"Имя величны\">\n" +
                     "                                            </div>\n" +
                     "                                        </div>\n" +
                     "                                    </div>\n" +
@@ -260,7 +261,7 @@
                     "                                        <div class=\"col-md-12\">\n" +
                     "                                            <div class=\"form-group\">\n" +
                     "                                                <label>Переменная</label>\n" +
-                    "                                                <input type=\"text\" name=\"iotVariable\"  value='"+result.iotName+"' class=\"form-control\" placeholder=\"Имя переменной\">\n" +
+                    "                                                <input type=\"text\" name=\"iotVariable\"  value='" + result.iotName + "' class=\"form-control\" placeholder=\"Имя переменной\">\n" +
                     "                                            </div>\n" +
                     "                                        </div>\n" +
                     "                                    </div>\n" +
@@ -268,7 +269,7 @@
                     "                                        <div class=\"col-md-12\">\n" +
                     "                                            <div class=\"form-group\">\n" +
                     "                                                <label>Сокращенная форма</label>\n" +
-                    "                                                <input type=\"text\" name=\"Symbol\"  value='"+result.measureSymbol+"' class=\"form-control\" placeholder=\"Имя переменной\">\n" +
+                    "                                                <input type=\"text\" name=\"Symbol\"  value='" + result.measureSymbol + "' class=\"form-control\" placeholder=\"Имя переменной\">\n" +
                     "                                            </div>\n" +
                     "                                        </div>\n" +
                     "                                    </div>\n" +
@@ -283,7 +284,7 @@
                         return obj;
                     }, {});
                     $.ajax({
-                        url: "/api/user/v1/device/" + idOfDevice + "/editMeasurement/"+mid+"?apikey=" + $.cookie("authToken"),
+                        url: "/api/user/v1/device/" + idOfDevice + "/editMeasurement/" + mid + "?apikey=" + $.cookie("authToken"),
                         type: "POST",
                         contentType: "application/json",
                         dataType: "json",
@@ -300,6 +301,7 @@
             }
         })
     }
+
     function addMeasurement(e) {
         $("#addMeasurement").unbind()
         $("#addMeasurement").click(cancelAddMeasure)
@@ -354,9 +356,11 @@
             });
         })
     }
+
     function cancelAddMeasure() {
         window.location.reload(false);
     }
+
     function getMeasureNamesAndMeasurements() {
         idOfDevice = window.location.pathname.split("/")
         idOfDevice = idOfDevice[idOfDevice.length - 1]
@@ -368,15 +372,22 @@
                 console.log(result)
                 //tableHeader = "<tr><th>№</th><th>Дата/Время</th>"
                 tmpDatasets = []
+                $("#measureNames").html("<tr>" +
+                    "<th>№</th>" +
+                    "<th>Название</th>" +
+                    "<th>Переменная</th>" +
+                    "<th>*</th>" +
+                    " </tr>")
                 for (i = 0; i < result.measureNames.length; i++) {
                     //tableHeader += "<th>"+ result.measureNames[i].measureName + "," + result.measureNames[i].measureSymbol +"</th>"
+
                     template = "<tr>" +
                         "<td>" + (i + 1) + "</td>" +
                         "<td>" + result.measureNames[i].measureName + "</td>" +
                         "<td>" + result.measureNames[i].iotName + "</td>" +
                         "<td>" + result.measureNames[i].measureSymbol + "</td>" +
                         "<td class=\"td-actions text-left\"> " +
-                        "<button class=\"btn btn-raised btn-primary\" onclick=editMeasurement("+result.measureNames[i].id+")><i class=\"pe-7s-edit\"></i></button></td>" +
+                        "<button class=\"btn btn-raised btn-primary\" onclick=editMeasurement(" + result.measureNames[i].id + ")><i class=\"pe-7s-edit\"></i></button></td>" +
                         "</tr>"
                     $("#measureNames").append(template)
                     tmpData = []
@@ -392,12 +403,13 @@
                     })
 
                 }
+                $("#tabs").html("")
+                $("#tab-content").html("")
                 for (i = 0; i < tmpDatasets.length; i++) {
-                    console.log("cycle")
                     templateTabs = '<li class="nav-item">' +
                         '<a class="nav-link" data-toggle="tab" href="#measure' + i + '">' + tmpDatasets[i].label + '</a>' +
                         '</li>'
-                    templateTabsContent = '<div class="tab-pane fade" id="measure' + i + '"><table class="table"><tr><th>№</th><th>Дата</th><th>' + tmpDatasets[i].label + '</th></tr>'
+                    templateTabsContent = '<div class="tab-pane fade y" id="measure' + i + '"><table class="table"><tr><th>№</th><th>Дата</th><th>' + tmpDatasets[i].label + '</th></tr>'
                     for (k = 0; k < tmpDatasets[i].data.length; k++) {
                         templateTabsContent += "<tr><td>"
                         templateTabsContent += k + 1
@@ -421,7 +433,18 @@
                     data: {
                         datasets: tmpDatasets
                     },
+                    zoom: {
+                        enabled: true,
+                        drag: true,
+                        mode: "xy",
+                        speed: 0.01,
+                        // sensitivity: 0.1,
+                        limits: {
+                            max: 10,
+                            min: 0.5
+                        }},
                     options: {
+                        //animation: false,
                         tooltips: {
                             callbacks: {
                                 title(datasets) {
@@ -449,6 +472,7 @@
             }
         });
     }
+
     function startChangeDevice() {
         idOfDevice = window.location.pathname.split("/")
         idOfDevice = idOfDevice[idOfDevice.length - 1]
@@ -524,6 +548,7 @@
             }
         });
     }
+
     function cancelEditDevice() {
         idOfDevice = window.location.pathname.split("/")
         idOfDevice = idOfDevice[idOfDevice.length - 1]
@@ -549,9 +574,10 @@
             }
         });
     }
-    function removeMeasurement(mid){
+
+    function removeMeasurement(mid) {
         $.ajax({
-            url: "/api/user/v1/device/" + idOfDevice + "/removeMeasurement/"+mid+"?apikey=" + $.cookie("authToken"),
+            url: "/api/user/v1/device/" + idOfDevice + "/removeMeasurement/" + mid + "?apikey=" + $.cookie("authToken"),
             type: "GET",
             contentType: "application/json",
             success: function (result) {
@@ -559,6 +585,7 @@
             }
         })
     }
+
     function resetApiKey() {
         idOfDevice = window.location.pathname.split("/")
         idOfDevice = idOfDevice[idOfDevice.length - 1]
@@ -578,19 +605,21 @@
             }
         });
     }
+
     function removeDevice() {
         $.ajax({
             url: "/api/user/v1/device/remove/" + idOfDevice + "?apikey=" + $.cookie("authToken"),
             type: "GET",
             contentType: "application/json",
             success: function (result) {
-                window.location.href ="/dashboard"
+                window.location.href = "/dashboard"
             }
         });
     }
+
     $(document).ready(function () {
 
-
+        $("#refreshButton").click(getMeasureNamesAndMeasurements)
         $("#addMeasurement").click(addMeasurement)
         getMeasureNamesAndMeasurements()
 

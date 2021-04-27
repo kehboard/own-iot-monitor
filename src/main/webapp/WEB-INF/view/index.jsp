@@ -52,13 +52,13 @@
                 <li class="active">
                     <a href="/dashboard">
                         <i class="pe-7s-signal"></i>
-                        <p>Devices</p>
+                        <p>Устройства</p>
                     </a>
                 </li>
                 <li>
                     <a href="/dashboard/addNewDevice">
                         <i class="pe-7s-plus"></i>
-                        <p>Add new device</p>
+                        <p>Новое устройство</p>
                     </a>
                 </li>
             </ul>
@@ -82,13 +82,13 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                Account
+                                Учетная запись
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="/dashboard/accountSettings">Settings</a></li>
+                                <li><a href="/dashboard/accountSettings">Настройки</a></li>
                                 <li class="divider"></li>
-                                <li><a href="/logout">Log out</a></li>
+                                <li><a href="/logout">Выйти</a></li>
                             </ul>
                         </li>
                     </ul>

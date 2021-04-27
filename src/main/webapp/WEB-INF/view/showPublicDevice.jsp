@@ -63,13 +63,13 @@
                 <li>
                     <a href="/dashboard">
                         <i class="pe-7s-signal"></i>
-                        <p>Devices</p>
+                        <p>Устройства</p>
                     </a>
                 </li>
                 <li class="">
                     <a href="/dashboard/addNewDevice">
                         <i class="pe-7s-plus"></i>
-                        <p>Add new device</p>
+                        <p>Новое устройство</p>
                     </a>
                 </li>
             </ul>
@@ -88,18 +88,19 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="#">Панель управления</a>
+                    <a type="button" class="btn" id="refreshButton"><i class="pe-7s-refresh-2"></i></a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                Account
+                                Учетная запись
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="/dashboard/accountSettings">Settings</a></li>
+                                <li><a href="/dashboard/accountSettings">Настройки</a></li>
                                 <li class="divider"></li>
-                                <li><a href="/logout">Log out</a></li>
+                                <li><a href="/logout">Выйти</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -155,7 +156,7 @@
                             </div>
                             <div class="content" id="measureNameDiv">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-10">
                                         <table class="table" id="measureNames">
                                             <tr>
 
@@ -240,15 +241,20 @@
                 console.log(result)
                 //tableHeader = "<tr><th>№</th><th>Дата/Время</th>"
                 tmpDatasets = []
+                $("#measureNames").html("<tr>" +
+                    "<th>№</th>" +
+                    "<th>Название</th>" +
+                    "<th>Переменная</th>" +
+                    "<th>*</th>" +
+                    " </tr>")
                 for (i = 0; i < result.measureNames.length; i++) {
                     //tableHeader += "<th>"+ result.measureNames[i].measureName + "," + result.measureNames[i].measureSymbol +"</th>"
+
                     template = "<tr>" +
                         "<td>" + (i + 1) + "</td>" +
                         "<td>" + result.measureNames[i].measureName + "</td>" +
                         "<td>" + result.measureNames[i].iotName + "</td>" +
                         "<td>" + result.measureNames[i].measureSymbol + "</td>" +
-                        "<td class=\"td-actions text-left\"> " +
-                        "<button class=\"btn btn-raised btn-primary\" onclick=editMeasurement("+result.measureNames[i].id+")><i class=\"pe-7s-edit\"></i></button></td>" +
                         "</tr>"
                     $("#measureNames").append(template)
                     tmpData = []
@@ -264,8 +270,9 @@
                     })
 
                 }
+                $("#tabs").html("")
+                $("#tab-content").html("")
                 for (i = 0; i < tmpDatasets.length; i++) {
-                    console.log("cycle")
                     templateTabs = '<li class="nav-item">' +
                         '<a class="nav-link" data-toggle="tab" href="#measure' + i + '">' + tmpDatasets[i].label + '</a>' +
                         '</li>'
@@ -294,6 +301,7 @@
                         datasets: tmpDatasets
                     },
                     options: {
+                        animation:false,
                         tooltips: {
                             callbacks: {
                                 title(datasets) {
@@ -323,5 +331,6 @@
     }
     $(document).ready(function () {
         getMeasureNamesAndMeasurements()
+        $("#refreshButton").click(getMeasureNamesAndMeasurements)
     });
 </script>

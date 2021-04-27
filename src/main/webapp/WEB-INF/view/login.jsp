@@ -37,7 +37,7 @@
 <body>
 <div class="login-form">
     <form action="/login" method="post" onsubmit="">
-        <h2 class="text-center">Log in</h2>
+        <h2 class="text-center">My monitoring</h2>
         <div class="form-group">
             <input type="text" name="login" class="form-control" placeholder="Username" required="required">
         </div>
